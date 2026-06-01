@@ -83,4 +83,11 @@ export const sections = [
     theme: 'theme-blue',
     description: 'Park the trucks in their color-matched spots.',
   },
+  {
+    id: 'house',
+    title: 'Build a House',
+    emoji: '\u{1F3E1}',
+    theme: 'theme-orange',
+    description: 'Pick walls, roofs, doors, and windows to build.',
+  },
 ];

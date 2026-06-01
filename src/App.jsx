@@ -30,6 +30,8 @@ import SortingStationGame from './components/SortingStationGame.jsx';
 import { sortingGameData, sortingBins } from './data/sortingGame.js';
 import ParkingChallengeGame from './components/ParkingChallengeGame.jsx';
 import { parkingTrucks, parkingSpots } from './data/parkingGame.js';
+import BuildHouseGame from './components/BuildHouseGame.jsx';
+import { houseElements } from './data/houseGame.js';
 
 const pageMap = Object.fromEntries(sections.map((section) => [section.id, section]));
 const defaultSettings = {
@@ -299,6 +301,7 @@ export default function App() {
       {page === 'play' && <PlayPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'sorting' && <SortingStationPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'parking' && <ParkingChallengePage playTone={playTone} addAchievement={addAchievement} />}
+      {page === 'house' && <BuildHousePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'resources' && <ParentResources links={parentResources} onBack={() => setPage('home')} />}
       <ParentSettings
         settings={settings}
@@ -871,7 +874,27 @@ function SortingStationPage({ playTone, addAchievement }) {
   );
 }
 
-function ParkingChallengePage({ playTone, addAchievement }) {
+function BuildHousePage({ playTone, addAchievement }) {
+  return (
+    <SectionPage
+      eyebrow="Build a House"
+      title="Create your home"
+      intro="Pick walls, roofs, doors, and windows to build your dream house!"
+      theme="theme-orange"
+    >
+      <BuildHouseGame elements={houseElements} playTone={playTone} />
+      <div className="feature-grid">
+        {houseElements.map((elem) => (
+          <article className="feature-card" key={elem.id}>
+            <div className="emoji-large">{elem.emoji}</div>
+            <h3>{elem.name}</h3>
+            <p>{elem.type}</p>
+          </article>
+        ))}
+      </div>
+    </SectionPage>
+  );
+}({ playTone, addAchievement }) {
   return (
     <SectionPage
       eyebrow="Parking Challenge"
