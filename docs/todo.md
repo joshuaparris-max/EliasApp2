@@ -1,3 +1,29 @@
+## Parent-curated links: cool builder / vehicle / tool games for Elias
+
+These are for a parent to open and review first. Keep external links out of EliasApp's child-facing UI unless you intentionally add a parent-only resources page later.
+
+### Best web games to try on a computer
+
+- [Toy Theater Build](https://toytheater.com/build/) - simple browser-based block building; good first pick for stacking, arranging, and making little structures.
+- [Toy Theater](https://toytheater.com/) - broader set of educational browser games; parent should choose the specific activity first.
+- [CrazyGames Building Games](https://www.crazygames.com/t/build) - lots of browser building games; parent-supervised only because it is a large game portal and not all games will be toddler-appropriate.
+- [Code.org](https://code.org/) - better for when Elias is older; useful for visual block/coding activities, not really toddler-first.
+- [ScratchJr](https://www.scratchjr.org/) - better for ages around 5+; good future option for making little interactive scenes with blocks.
+
+### Best apps to check
+
+- [LEGO DUPLO World on the App Store](https://apps.apple.com/us/app/lego-duplo-world/id1458749093) - likely the strongest fit: colourful DUPLO-style building, vehicles, and toddler-friendly play.
+- [LEGO DUPLO World on Google Play](https://play.google.com/store/apps/details/LEGO_DUPLO_WORLD?hl=en-US&id=com.storytoys.lego.duplo.world.kids.play.free.friends.animals.android.googleplay) - Android version of the same app.
+- [Toca Boca World official page](https://www.tocaboca.com/app/world/) - open-ended play world; more general pretend play than tools, but good for building rooms and scenes.
+- [Toca Boca World on Google Play](https://play.google.com/store/apps/details/Toca_Boca_World?hl=en-US&id=com.tocaboca.tocalifeworld) - Android listing; parent should review in-app purchases/settings first.
+- [Dr. Panda Trucks on the App Store](https://apps.apple.com/us/app/dr-panda-trucks/id1226883811) - construction trucks, cranes, materials, and building; strong match if still available on your device.
+
+### Notes for EliasApp ideas
+
+- Best inspiration for EliasApp: Toy Theater Build, LEGO DUPLO World, and Dr. Panda Trucks.
+- Avoid linking game portals directly inside the child UI.
+- Use these as design references: big touch targets, no autoplay, simple cause/effect, visual feedback, and parent-controlled content.
+
 ChatGPT
 
 
