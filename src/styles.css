@@ -1,0 +1,389 @@
+﻿:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, sans-serif;
+  background: #fbfbff;
+  color: #1f2937;
+  --surface: #ffffff;
+  --surface-soft: #f5f7ff;
+  --text: #1f2937;
+  --text-muted: #4b5563;
+  --border: #e5e7eb;
+  --accent: #5b9cff;
+  --accent-soft: #dbeafe;
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: radial-gradient(circle at top, #e6f3ff, #fbfbff 60%);
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+}
+
+.header-spacer {
+  width: 84px;
+}
+
+.mute-toggle,
+.back-button,
+.action-button,
+.choice-button,
+.tab,
+.big-button,
+.spinner-card,
+.fix-object,
+.wheel-button,
+.headlight-toggle {
+  border: none;
+  border-radius: 26px;
+  padding: 16px 20px;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+}
+
+.mute-toggle,
+.back-button {
+  background: var(--surface-soft);
+  color: #111827;
+  box-shadow: var(--shadow);
+}
+
+.mute-toggle:hover,
+.back-button:hover,
+.action-button:hover,
+.choice-button:hover,
+.tab:hover,
+.big-button:hover,
+.spinner-card:hover,
+.fix-object:hover,
+.wheel-button:hover,
+.headlight-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.page-content {
+  flex: 1;
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 26px 0 36px;
+}
+
+.page {
+  display: grid;
+  gap: 18px;
+}
+
+.hero-card,
+.page-hero,
+.app-card,
+.video-card,
+.mini-game-shell,
+.mini-game-card,
+.tool-card,
+.vehicle-card,
+.interactive-machine,
+.spinner-card,
+.fix-object {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+.hero-card,
+.page-hero,
+.app-card,
+.video-card,
+.mini-game-card,
+.tool-card,
+.vehicle-card,
+.interactive-machine,
+.spinner-card,
+.fix-object {
+  padding: 22px;
+}
+
+.hero-card h1,
+.page-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.hero-card p,
+.page-hero p,
+.app-card p,
+.video-card p,
+.tool-card p,
+.vehicle-card p,
+.interactive-machine p,
+.mini-game-card p,
+.spinner-card p,
+.fix-object p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.app-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.card-icon,
+.card-emoji,
+.tool-icon,
+.video-placeholder,
+.fix-emoji {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: var(--accent-soft);
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+}
+
+.button-grid,
+.machine-grid,
+.vehicle-grid,
+.tool-grid,
+.spinner-grid,
+.video-grid,
+.fix-grid,
+.game-tabs,
+.game-choices {
+  display: grid;
+  gap: 16px;
+}
+
+.button-grid,
+.game-tabs,
+.game-choices {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.machine-grid,
+.vehicle-grid,
+.tool-grid,
+.spinner-grid,
+.video-grid,
+.fix-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.big-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+  min-height: 116px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.big-button .button-emoji {
+  font-size: 1.8rem;
+}
+
+.vehicle-card,
+.tool-card,
+.interactive-machine,
+.video-card,
+.spinner-card,
+.fix-object {
+  display: grid;
+  gap: 14px;
+}
+
+.vehicle-top,
+.machine-art,
+.video-preview {
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+}
+
+.vehicle-art {
+  min-height: 190px;
+  width: 100%;
+  background: #eef6ff;
+  color: #111827;
+}
+
+.vehicle-art span,
+.machine-emoji,
+.spinner-emoji,
+.fix-emoji,
+.video-placeholder {
+  font-size: 3rem;
+}
+
+.vehicle-wheels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.action-button,
+.sound-button,
+.choice-button,
+.tab,
+.wheel-button,
+.headlight-toggle {
+  background: #ffffff;
+  color: #111827;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.action-button,
+.choice-button,
+.tab {
+  font-weight: 700;
+}
+
+.input-button,
+.wheel-button,
+.headlight-toggle {
+  width: 100%;
+}
+
+.vehicle-actions,
+.machine-buttons,
+.game-status {
+  display: grid;
+  gap: 12px;
+}
+
+.fact-text,
+.small-note,
+.action-state {
+  color: var(--text-muted);
+}
+
+.video-preview {
+  min-height: 160px;
+  width: 100%;
+  background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+}
+
+.video-details h3,
+.tool-card h3,
+.vehicle-card h3,
+.mini-game-card h3,
+.spinner-card h3,
+.fix-object span {
+  margin: 0;
+}
+
+.mini-game-shell {
+  padding: 18px;
+}
+
+.tab.active {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.choice-button.selected {
+  background: #dbeafe;
+  border-color: #90b7fd;
+}
+
+.fix-object {
+  align-items: center;
+  gap: 12px;
+  min-height: 130px;
+  background: #f8fbff;
+}
+
+.fix-object.fixed {
+  background: #e0f7eb;
+}
+
+.fix-emoji {
+  width: 60px;
+  height: 60px;
+}
+
+.app-footer {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  padding: 18px 20px;
+}
+
+@media (max-width: 720px) {
+  .app-header,
+  .app-footer,
+  .page-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .button-grid,
+  .machine-grid,
+  .vehicle-grid,
+  .tool-grid,
+  .spinner-grid,
+  .video-grid,
+  .fix-grid,
+  .game-tabs,
+  .game-choices {
+    grid-template-columns: 1fr;
+  }
+}
