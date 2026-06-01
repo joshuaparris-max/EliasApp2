@@ -76,4 +76,11 @@ export const sections = [
     theme: 'theme-teal',
     description: 'Put items into the correct bins with a conveyor belt.',
   },
+  {
+    id: 'parking',
+    title: 'Parking Challenge',
+    emoji: '\u{1F6CA}',
+    theme: 'theme-blue',
+    description: 'Park the trucks in their color-matched spots.',
+  },
 ];

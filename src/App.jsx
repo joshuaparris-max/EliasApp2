@@ -28,6 +28,8 @@ import { games, fixObjects } from './data/games.js';
 import { vehicleSounds } from './data/sounds.js';
 import SortingStationGame from './components/SortingStationGame.jsx';
 import { sortingGameData, sortingBins } from './data/sortingGame.js';
+import ParkingChallengeGame from './components/ParkingChallengeGame.jsx';
+import { parkingTrucks, parkingSpots } from './data/parkingGame.js';
 
 const pageMap = Object.fromEntries(sections.map((section) => [section.id, section]));
 const defaultSettings = {
@@ -296,6 +298,7 @@ export default function App() {
       {page === 'watch' && <WatchPage showVideos={settings.showVideos} />}
       {page === 'play' && <PlayPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'sorting' && <SortingStationPage playTone={playTone} addAchievement={addAchievement} />}
+      {page === 'parking' && <ParkingChallengePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'resources' && <ParentResources links={parentResources} onBack={() => setPage('home')} />}
       <ParentSettings
         settings={settings}
@@ -861,6 +864,28 @@ function SortingStationPage({ playTone, addAchievement }) {
             <div className="emoji-large">{item.emoji}</div>
             <h3>{item.name}</h3>
             <p>{item.category}</p>
+          </article>
+        ))}
+      </div>
+    </SectionPage>
+  );
+}
+
+function ParkingChallengePage({ playTone, addAchievement }) {
+  return (
+    <SectionPage
+      eyebrow="Parking Challenge"
+      title="Park the trucks"
+      intro="Match each truck to its colored parking spot!"
+      theme="theme-blue"
+    >
+      <ParkingChallengeGame trucks={parkingTrucks} spots={parkingSpots} playTone={playTone} />
+      <div className="feature-grid">
+        {parkingTrucks.map((truck) => (
+          <article className="feature-card" key={truck.id}>
+            <div className="emoji-large">{truck.emoji}</div>
+            <h3>{truck.name}</h3>
+            <p style={{ color: truck.color }}>Spot: {truck.color}</p>
           </article>
         ))}
       </div>
