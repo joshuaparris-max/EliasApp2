@@ -956,6 +956,45 @@ button:focus-visible {
   color: var(--muted);
 }
 
+.recommended-apps {
+  display: grid;
+  gap: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: clamp(16px, 3vw, 24px);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-soft);
+}
+
+.recommended-apps h2 {
+  margin-bottom: 6px;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+}
+
+.app-card {
+  display: grid;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: linear-gradient(135deg, #ffffff, #f7fbff);
+  border: 1px solid var(--line);
+}
+
+.app-card h3,
+.app-card p {
+  margin-bottom: 0;
+}
+
+.app-card small {
+  color: var(--theme-deep);
+  font-weight: 950;
+}
+
 .parent-note {
   color: #1d6d66;
   font-weight: 900;

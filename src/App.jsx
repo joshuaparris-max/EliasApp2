@@ -46,6 +46,65 @@ const todayActivities = [
   'Sort the bins',
 ];
 
+const recommendedApps = [
+  {
+    id: 'lego-duplo-world',
+    title: 'LEGO DUPLO WORLD',
+    description: 'Digital DUPLO building and preschool-friendly construction play. Parent links are kept in docs/todo.md.',
+    url: 'https://play.google.com/store/apps/details?id=com.lego.duploworld',
+    platform: 'App Store / Google Play',
+  },
+  {
+    id: 'dr-panda-trucks',
+    title: 'Dr. Panda Trucks',
+    description: 'Drive diggers, cranes, and trucks on a playful construction site. Parent should check availability first.',
+    url: 'https://play.google.com/store/apps/details?id=com.drpanda.trucks',
+    platform: 'App Store / Google Play',
+  },
+  {
+    id: 'toca-builders',
+    title: 'Toca Builders',
+    description: 'A cute blocky world where kids build, paint, and shape structures. Parent-supervised recommendation.',
+    url: 'https://play.google.com/store/apps/details?id=com.tocaboca.tocabuilders',
+    platform: 'App Store / Google Play',
+  },
+  {
+    id: 'little-builders',
+    title: 'Little Builders',
+    description: 'Simple crane, mixer, and digger play for toddlers. Parent should review first.',
+    url: 'https://play.google.com/store/apps/details?id=com.foxandsheep.littlebuilders',
+    platform: 'App Store / Google Play',
+  },
+  {
+    id: 'toy-theater',
+    title: 'Toy Theater Build',
+    description: 'Free browser building blocks for simple desktop play. Link saved in docs for parents.',
+    url: 'https://toytheater.com/build/',
+    platform: 'Web',
+  },
+  {
+    id: 'crazygames-building',
+    title: 'CrazyGames Building',
+    description: 'Large browser game portal. Parent-supervised only.',
+    url: 'https://www.crazygames.com/t/building',
+    platform: 'Web',
+  },
+  {
+    id: 'scratchjr',
+    title: 'Scratch Jr',
+    description: 'Drag-and-drop block coding for creative stories and simple games. Better for when Elias is older.',
+    url: 'https://www.scratchjr.org/',
+    platform: 'Web',
+  },
+  {
+    id: 'code-org',
+    title: 'Code.org',
+    description: 'Beginner-friendly visual coding with blocks and animations. Future older-kid option.',
+    url: 'https://code.org/',
+    platform: 'Web',
+  },
+];
+
 function readStorage(key, fallback) {
   if (typeof window === 'undefined') return fallback;
   try {
@@ -272,6 +331,7 @@ function GarbagePage({ playTone, addAchievement }) {
             </div>
           ))}
         </div>
+        <FeedbackBubble>{correctCount === items.length ? 'All bins sorted. Clean street!' : `Sorted ${correctCount}/3 items.`}</FeedbackBubble>
       </MiniGameShell>
 
       <div className="feature-grid">
@@ -439,9 +499,12 @@ function ScrewdriverPage({ playTone, addAchievement }) {
   const fixed = Math.abs(turns) >= 6;
 
   function turn(direction) {
-    setTurns((value) => value + direction);
-    playTone(470 + Math.abs(turns) * 8);
-    if (Math.abs(turns + direction) >= 6) addAchievement('Screwdriver Star');
+    setTurns((value) => {
+      const next = value + direction;
+      playTone(470 + Math.abs(next) * 8);
+      if (Math.abs(next) >= 6) addAchievement('Screwdriver Star');
+      return next;
+    });
   }
 
   function chooseFit(id) {
@@ -587,6 +650,21 @@ function WatchPage({ showVideos }) {
       ) : (
         <FeedbackBubble>Video cards are hidden in parent settings.</FeedbackBubble>
       )}
+      <section className="recommended-apps" aria-labelledby="recommended-apps-title">
+        <div className="section-header">
+          <h2 id="recommended-apps-title">Recommended builder apps</h2>
+              <p>Parent-only ideas for tool play, construction, and building blocks. Links stay in docs/todo.md, not in the child UI.</p>
+        </div>
+        <div className="app-grid">
+          {recommendedApps.map((app) => (
+            <article className="app-card" key={app.id}>
+                  <h3>{app.title}</h3>
+                  <p>{app.description}</p>
+                  <small>{app.platform}</small>
+                </article>
+          ))}
+        </div>
+      </section>
     </SectionPage>
   );
 }
