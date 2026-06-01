@@ -32,6 +32,9 @@ import ParkingChallengeGame from './components/ParkingChallengeGame.jsx';
 import { parkingTrucks, parkingSpots } from './data/parkingGame.js';
 import BuildHouseGame from './components/BuildHouseGame.jsx';
 import { houseElements } from './data/houseGame.js';
+import SoundMemoryGame from './components/SoundMemoryGame.jsx';
+import PaintVehiclesGame from './components/PaintVehiclesGame.jsx';
+import { memoryCards, paintColors } from './data/miniGames.js';
 
 const pageMap = Object.fromEntries(sections.map((section) => [section.id, section]));
 const defaultSettings = {
@@ -302,6 +305,8 @@ export default function App() {
       {page === 'sorting' && <SortingStationPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'parking' && <ParkingChallengePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'house' && <BuildHousePage playTone={playTone} addAchievement={addAchievement} />}
+      {page === 'memory' && <MemoryGamePage playTone={playTone} addAchievement={addAchievement} />}
+      {page === 'paint' && <PaintGamePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'resources' && <ParentResources links={parentResources} onBack={() => setPage('home')} />}
       <ParentSettings
         settings={settings}
@@ -889,6 +894,49 @@ function BuildHousePage({ playTone, addAchievement }) {
             <div className="emoji-large">{elem.emoji}</div>
             <h3>{elem.name}</h3>
             <p>{elem.type}</p>
+          </article>
+        ))}
+      </div>
+    </SectionPage>
+  );
+}
+
+function MemoryGamePage({ playTone, addAchievement }) {
+  return (
+    <SectionPage
+      eyebrow="Memory Game"
+      title="Match the sounds"
+      intro="Flip cards to find matching sound pairs. Listen carefully!"
+      theme="theme-purple"
+    >
+      <SoundMemoryGame cards={memoryCards} playTone={playTone} />
+      <div className="feature-grid">
+        {memoryCards.slice(0, 3).map((card, i) => (
+          <article className="feature-card" key={i}>
+            <div className="emoji-large">{card.sound}</div>
+            <h3>{card.name}</h3>
+            <p>{card.category}</p>
+          </article>
+        ))}
+      </div>
+    </SectionPage>
+  );
+}
+
+function PaintGamePage({ playTone, addAchievement }) {
+  return (
+    <SectionPage
+      eyebrow="Paint Shop"
+      title="Paint the vehicles"
+      intro="Choose a color and paint the car. Try all the colors!"
+      theme="theme-red"
+    >
+      <PaintVehiclesGame colors={paintColors} playTone={playTone} />
+      <div className="feature-grid">
+        {paintColors.map((color) => (
+          <article className="feature-card" key={color.id}>
+            <div className="emoji-large" style={{ color: color.hex }}>■</div>
+            <h3>{color.name}</h3>
           </article>
         ))}
       </div>

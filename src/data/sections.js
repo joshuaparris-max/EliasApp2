@@ -90,4 +90,18 @@ export const sections = [
     theme: 'theme-orange',
     description: 'Pick walls, roofs, doors, and windows to build.',
   },
+  {
+    id: 'memory',
+    title: 'Memory Game',
+    emoji: '\u{1F9E0}',
+    theme: 'theme-purple',
+    description: 'Flip cards and match sound pairs.',
+  },
+  {
+    id: 'paint',
+    title: 'Paint Shop',
+    emoji: '\u{1F3A8}',
+    theme: 'theme-red',
+    description: 'Pick colors and paint vehicles bright and fun.',
+  },
 ];
