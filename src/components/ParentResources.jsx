@@ -13,10 +13,12 @@ export default function ParentResources({ links, onBack }) {
           <article className="resource-card" key={item.id}>
             <div className="resource-header">
               <strong>{item.title}</strong>
-              <span>{item.category}</span>
+              <span className="resource-badge">{item.category}</span>
             </div>
             <p>{item.description}</p>
-            <a href={item.url} target="_blank" rel="noreferrer noopener">Open link</a>
+            <a href={item.url} target="_blank" rel="noreferrer noopener" className="resource-link">
+              Open link ↗
+            </a>
           </article>
         ))}
       </div>
