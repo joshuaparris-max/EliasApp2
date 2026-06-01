@@ -1,36 +1,29 @@
 import { useMemo, useState } from 'react';
 import Layout from './components/Layout.jsx';
 import HomeCard from './components/HomeCard.jsx';
-import SectionHeader from './components/SectionHeader.jsx';
-import InteractiveMachine from './components/InteractiveMachine.jsx';
-import InteractiveSpinner from './components/InteractiveSpinner.jsx';
-import VehicleCard from './components/VehicleCard.jsx';
-import ToolCard from './components/ToolCard.jsx';
-import VideoCard from './components/VideoCard.jsx';
-import MiniGameShell from './components/MiniGameShell.jsx';
+import SectionPage from './components/SectionPage.jsx';
 import BigButton from './components/BigButton.jsx';
 import FeedbackBubble from './components/FeedbackBubble.jsx';
-import {
-  sections,
-  garbageTrucks,
-  constructionMachines,
-  vehicles,
-  tools,
-  spinners,
-  videos,
-  games,
-  fixObjects,
-} from './data/index.js';
+import MachineCard from './components/MachineCard.jsx';
+import VehicleCard from './components/VehicleCard.jsx';
+import ToolCard from './components/ToolCard.jsx';
+import InteractiveSpinner from './components/InteractiveSpinner.jsx';
+import VideoCard from './components/VideoCard.jsx';
+import MiniGameShell from './components/MiniGameShell.jsx';
+import GameCard from './components/GameCard.jsx';
+import MediaImage from './components/MediaImage.jsx';
+import { sections } from './data/sections.js';
+import { garbageTrucks } from './data/garbageTrucks.js';
+import { constructionMachines } from './data/constructionMachines.js';
+import { vehicles } from './data/vehicles.js';
+import { tools } from './data/tools.js';
+import { spinners } from './data/spinners.js';
+import { videos } from './data/videos.js';
+import { games, fixObjects } from './data/games.js';
 
-const sectionById = Object.fromEntries(sections.map((section) => [section.id, section]));
-const buildMatches = {
-  'toy-car': 'screwdriver',
-  'garbage-truck': 'hammer',
-  'block-tower': 'spanner',
-  toolbox: 'tape-measure',
-};
+const pageMap = Object.fromEntries(sections.map((section) => [section.id, section]));
 
-function playSoftTone(muted) {
+function playSoftTone(muted, pitch = 420) {
   if (muted || typeof window === 'undefined') return;
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   if (!AudioContext) return;
@@ -38,286 +31,428 @@ function playSoftTone(muted) {
   const context = new AudioContext();
   const oscillator = context.createOscillator();
   const gain = context.createGain();
-  oscillator.type = 'triangle';
-  oscillator.frequency.value = 420;
-  gain.gain.setValueAtTime(0.005, context.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.08, context.currentTime + 0.03);
-  gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.3);
+  oscillator.type = 'sine';
+  oscillator.frequency.value = pitch;
+  gain.gain.setValueAtTime(0.001, context.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.06, context.currentTime + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.25);
   oscillator.connect(gain);
   gain.connect(context.destination);
   oscillator.start();
-  oscillator.stop(context.currentTime + 0.35);
+  oscillator.stop(context.currentTime + 0.28);
 }
 
 export default function App() {
   const [page, setPage] = useState('home');
   const [muted, setMuted] = useState(true);
-
-  const soundPlayer = useMemo(
-    () => ({
-      play: () => {
-        playSoftTone(muted);
-      },
-    }),
-    [muted],
-  );
-
-  const title = page === 'home' ? 'EliasApp' : sectionById[page]?.title;
+  const activeSection = pageMap[page];
+  const playTone = (pitch) => playSoftTone(muted, pitch);
 
   return (
     <Layout
-      title={title}
-      subtitle="Trucks, tools, cars and building fun"
+      page={page}
+      title={activeSection?.title || 'EliasApp'}
       muted={muted}
       onToggleMute={() => setMuted((value) => !value)}
+      onBack={() => setPage('home')}
     >
       {page === 'home' && <HomePage onOpen={setPage} />}
-      {page === 'garbage' && <GarbagePage onBack={() => setPage('home')} playTone={soundPlayer.play} />}
-      {page === 'construction' && <ConstructionPage onBack={() => setPage('home')} playTone={soundPlayer.play} />}
-      {page === 'cars' && <CarsPage onBack={() => setPage('home')} muted={muted} playTone={soundPlayer.play} />}
-      {page === 'tools' && <ToolsPage onBack={() => setPage('home')} />}
-      {page === 'spin' && <SpinPage onBack={() => setPage('home')} />}
-      {page === 'build' && <BuildFixPage onBack={() => setPage('home')} />}
-      {page === 'watch' && <WatchPage onBack={() => setPage('home')} />}
-      {page === 'play' && <PlayPage onBack={() => setPage('home')} soundPlayer={soundPlayer} muted={muted} />}
+      {page === 'garbage' && <GarbagePage playTone={playTone} />}
+      {page === 'construction' && <ConstructionPage playTone={playTone} />}
+      {page === 'cars' && <CarsPage muted={muted} playTone={playTone} />}
+      {page === 'tools' && <ToolsPage />}
+      {page === 'spin' && <SpinPage />}
+      {page === 'build' && <BuildFixPage playTone={playTone} />}
+      {page === 'watch' && <WatchPage />}
+      {page === 'play' && <PlayPage playTone={playTone} />}
     </Layout>
   );
 }
 
 function HomePage({ onOpen }) {
   return (
-    <section className="home-page">
-      <div className="home-intro">
-        <p>Welcome to Elias&apos; workshop world. Tap a bright card and start exploring trucks, tools, and building play.</p>
-      </div>
-      <div className="home-grid">
+    <div className="home-page">
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="hero-copy">
+          <span className="hero-badge">For Elias</span>
+          <h1 id="home-title">EliasApp</h1>
+          <h2>Trucks, tools, cars and building fun</h2>
+          <p>
+            Tap a card to visit a friendly play area. Lift bins, spin wheels, fix toys,
+            count trucks, and watch parent-approved videos.
+          </p>
+        </div>
+        <div className="hero-yard" aria-hidden="true">
+          <div className="sun" />
+          <div className="cloud cloud-one" />
+          <div className="cloud cloud-two" />
+          <div className="hero-crane">🏗️</div>
+          <div className="hero-truck">🚛</div>
+          <div className="hero-tools">🪛 🔧</div>
+          <div className="road-line" />
+        </div>
+      </section>
+
+      <section className="home-card-grid" aria-label="Play sections">
         {sections.map((section) => (
           <HomeCard key={section.id} section={section} onOpen={onOpen} />
         ))}
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
-function GarbagePage({ onBack, playTone }) {
+function GarbagePage({ playTone }) {
+  const [action, setAction] = useState('parked');
+  const [sorted, setSorted] = useState([]);
+
+  function trigger(nextAction) {
+    setAction(nextAction);
+    playTone(nextAction === 'sort' ? 520 : 420);
+  }
+
+  function sortItem(item) {
+    setSorted((current) => (current.includes(item) ? current : [...current, item]));
+    trigger('sort');
+  }
+
   return (
-    <section className="section-page">
-      <SectionHeader
-        icon="🚛"
-        title="Garbage Trucks"
-        description="Lift bins, tip rubbish, and sort recycling with friendly trucks."
-        onBack={onBack}
-      />
-      <div className="section-note">Tap each truck to make it work and hear the playful actions.</div>
-      <div className="machine-grid">
+    <SectionPage
+      eyebrow="Garbage day"
+      title="Garbage Trucks"
+      intro="Lift the bin, tip the load, sort recycling, and send the truck down the street."
+      theme="theme-green"
+    >
+      <div className="play-stage garbage-stage">
+        <div className={`garbage-scene ${action}`}>
+          <div className="street" />
+          <div className="scene-truck">🚛</div>
+          <div className="scene-bin">🗑️</div>
+          <div className="recycle-sparkle">♻️</div>
+          <div className="rubbish-dots" />
+        </div>
+        <FeedbackBubble>
+          {action === 'parked' && 'Ready for a clean street.'}
+          {action === 'lift' && 'Up goes the bin!'}
+          {action === 'tip' && 'Tip, tip, all tidy.'}
+          {action === 'sort' && `Recycling sorted: ${sorted.length}/3`}
+          {action === 'drive' && 'The truck is driving away.'}
+        </FeedbackBubble>
+      </div>
+
+      <div className="action-row">
+        <BigButton onClick={() => trigger('lift')} aria-label="Lift the bin">Lift the bin</BigButton>
+        <BigButton onClick={() => trigger('tip')} aria-label="Tip the rubbish">Tip rubbish</BigButton>
+        <BigButton onClick={() => trigger('sort')} aria-label="Sort recycling">Sort recycling</BigButton>
+        <BigButton onClick={() => trigger('drive')} aria-label="Drive away">Drive away</BigButton>
+      </div>
+
+      <div className="recycling-game" aria-label="Recycling sorting">
+        {['paper', 'glass', 'plastic'].map((item) => (
+          <button
+            key={item}
+            className={`sort-chip ${sorted.includes(item) ? 'done' : ''}`}
+            onClick={() => sortItem(item)}
+            aria-label={`Sort ${item}`}
+          >
+            {item === 'paper' ? '📦' : item === 'glass' ? '🥛' : '🧴'} {item}
+          </button>
+        ))}
+      </div>
+
+      <div className="feature-grid">
         {garbageTrucks.map((truck) => (
-          <InteractiveMachine key={truck.id} machine={truck} onAction={playTone} />
+          <article className="feature-card" key={truck.id}>
+            <MediaImage src={truck.image} alt={truck.title} emoji={truck.emoji} />
+            <h3>{truck.title}</h3>
+            <p>{truck.fact}</p>
+          </article>
         ))}
       </div>
-    </section>
+    </SectionPage>
   );
 }
 
-function ConstructionPage({ onBack, playTone }) {
+function ConstructionPage({ playTone }) {
+  const [active, setActive] = useState('excavator');
+
   return (
-    <section className="section-page">
-      <SectionHeader
-        icon="🏗️"
-        title="Construction"
-        description="Dig, lift, tip, mix, and flatten with playful building machines."
-        onBack={onBack}
-      />
-      <div className="section-note">Tap a machine to see it move and feel the construction world.</div>
-      <div className="machine-grid">
+    <SectionPage
+      eyebrow="Construction yard"
+      title="Dig, lift, tip and roll"
+      intro="Choose a machine and watch it do a gentle pretend job."
+      theme="theme-yellow"
+    >
+      <div className="feature-grid machine-grid">
         {constructionMachines.map((machine) => (
-          <InteractiveMachine key={machine.id} machine={machine} onAction={playTone} />
+          <MachineCard
+            key={machine.id}
+            machine={machine}
+            active={active === machine.id}
+            onActivate={() => {
+              setActive(machine.id);
+              playTone(360 + machine.title.length * 12);
+            }}
+          />
         ))}
       </div>
-    </section>
+    </SectionPage>
   );
 }
 
-function CarsPage({ onBack, muted, playTone }) {
+function CarsPage({ muted, playTone }) {
+  const [wheelGuess, setWheelGuess] = useState('');
+  const countVehicle = vehicles.find((vehicle) => vehicle.id === 'fire-truck');
+
   return (
-    <section className="section-page">
-      <SectionHeader
-        icon="🚗"
-        title="Cars & Trucks"
-        description="Tap horns, headlights, and wheels on happy vehicles."
-        onBack={onBack}
-      />
-      <div className="section-note">Tap to honk, light up, and spin wheels with calm interaction.</div>
-      <div className="card-grid">
+    <SectionPage
+      eyebrow="Vehicle workshop"
+      title="Cars & Trucks"
+      intro="Honk horns, switch lights, spin wheels, change colours, and count together."
+      theme="theme-blue"
+    >
+      <div className="count-panel">
+        <div>
+          <span className="panel-emoji" aria-hidden="true">{countVehicle.emoji}</span>
+          <h3>Count the wheels</h3>
+          <p>How many wheels are on the fire truck?</p>
+        </div>
+        <div className="action-row compact">
+          {[4, 6, 8].map((count) => (
+            <BigButton key={count} onClick={() => setWheelGuess(String(count))}>
+              {count}
+            </BigButton>
+          ))}
+        </div>
+        {wheelGuess && (
+          <FeedbackBubble>{wheelGuess === '6' ? 'Yes, six wheels!' : 'Try counting again.'}</FeedbackBubble>
+        )}
+      </div>
+      <div className="feature-grid vehicle-grid">
         {vehicles.map((vehicle) => (
           <VehicleCard key={vehicle.id} vehicle={vehicle} muted={muted} playTone={playTone} />
         ))}
       </div>
-    </section>
+    </SectionPage>
   );
 }
 
-function ToolsPage({ onBack }) {
-  const [matchResult, setMatchResult] = useState('');
+function ToolsPage() {
+  const [toolboxOpen, setToolboxOpen] = useState(false);
+  const [match, setMatch] = useState('');
 
   return (
-    <section className="section-page">
-      <SectionHeader
-        icon="🧰"
-        title="Tools"
-        description="Turn screws, tap nails, and fix toys with gentle tool play."
-        onBack={onBack}
-      />
-      <div className="match-panel">
-        <h3>Match the tool to the job</h3>
-        <p>Which tool turns the screw?</p>
-        <div className="button-grid">
+    <SectionPage
+      eyebrow="Friendly workshop"
+      title="Tools"
+      intro="Pretend tools for supervised play: turn a screw, open the toolbox, and fix a toy car."
+      theme="theme-orange"
+    >
+      <div className={`toolbox-panel ${toolboxOpen ? 'open' : ''}`}>
+        <button onClick={() => setToolboxOpen((value) => !value)} aria-label="Open or close toolbox">
+          <span aria-hidden="true">🧰</span>
+          {toolboxOpen ? 'Toolbox open' : 'Open toolbox'}
+        </button>
+        <div className="toolbox-tools" aria-hidden={!toolboxOpen}>
+          {tools.map((tool) => <span key={tool.id}>{tool.emoji}</span>)}
+        </div>
+      </div>
+
+      <div className="count-panel">
+        <div>
+          <h3>Match tool to job</h3>
+          <p>Which tool turns the pretend screw?</p>
+        </div>
+        <div className="action-row compact">
           {tools.slice(0, 4).map((tool) => (
-            <BigButton
-              key={tool.id}
-              onClick={() => setMatchResult(tool.id === 'screwdriver' ? 'Great choice!' : 'Try another tool!')}
-            >
-              {tool.emoji} {tool.name}
+            <BigButton key={tool.id} onClick={() => setMatch(tool.id)}>
+              {tool.emoji} {tool.title}
             </BigButton>
           ))}
         </div>
-        {matchResult && <FeedbackBubble message={matchResult} />}
+        {match && <FeedbackBubble>{match === 'screwdriver' ? 'The screwdriver turns it!' : 'That tool has another job.'}</FeedbackBubble>}
       </div>
-      <div className="tool-grid">
-        {tools.map((tool) => (
-          <ToolCard key={tool.id} tool={tool} />
-        ))}
+
+      <div className="feature-grid tool-grid">
+        {tools.map((tool) => <ToolCard key={tool.id} tool={tool} />)}
       </div>
-    </section>
+    </SectionPage>
   );
 }
 
-function SpinPage({ onBack }) {
+function SpinPage() {
   return (
-    <section className="section-page">
-      <SectionHeader
-        icon="⚙️"
-        title="Things That Spin"
-        description="Tap spinners and watch them turn slowly or fast."
-        onBack={onBack}
-      />
-      <div className="section-note">Double-tap to speed up, tap again to stop.</div>
-      <div className="spinner-grid">
-        {spinners.map((item) => (
-          <InteractiveSpinner key={item.id} item={item} />
-        ))}
+    <SectionPage
+      eyebrow="Round and round"
+      title="Things That Spin"
+      intro="Tap once to spin. Tap again to stop. Every spinner moves gently."
+      theme="theme-purple"
+    >
+      <div className="feature-grid spinner-grid">
+        {spinners.map((spinner) => <InteractiveSpinner key={spinner.id} item={spinner} />)}
       </div>
-    </section>
+    </SectionPage>
   );
 }
 
-function BuildFixPage({ onBack }) {
-  const [selectedObject, setSelectedObject] = useState(fixObjects[0].id);
-  const [selectedTool, setSelectedTool] = useState(tools[0].id);
-  const [resultMessage, setResultMessage] = useState('');
-  const objectItem = fixObjects.find((item) => item.id === selectedObject);
+function BuildFixPage({ playTone }) {
+  const [object, setObject] = useState(fixObjects[0].id);
+  const [tool, setTool] = useState('screwdriver');
+  const [fixed, setFixed] = useState(false);
+  const selectedObject = fixObjects.find((item) => item.id === object);
+  const selectedTool = tools.find((item) => item.id === tool);
 
-  const handleFix = () => {
-    const correctTool = buildMatches[selectedObject];
-    if (selectedTool === correctTool) {
-      setResultMessage(`Great work, Elias! You fixed the ${objectItem.name} and it is ready.`);
-    } else {
-      setResultMessage('Try a different tool to fix it.');
-    }
-  };
+  function fixIt() {
+    setFixed(true);
+    playTone(540);
+  }
 
   return (
-    <section className="section-page">
-      <SectionHeader
-        icon="🛠️"
-        title="Build & Fix"
-        description="Choose a broken toy and the right tool to fix it."
-        onBack={onBack}
-      />
-      <div className="fix-workshop">
-        <div className="fix-preview">
-          <div className="fix-preview-art" aria-hidden="true">
-            {objectItem.emoji}
-          </div>
-          <div>
-            <p>{objectItem.description}</p>
-            <small>Selected tool: {tools.find((item) => item.id === selectedTool)?.name}</small>
-          </div>
+    <SectionPage
+      eyebrow="Build & Fix"
+      title="Fix-it mini game"
+      intro="Pick something broken, choose a friendly pretend tool, then press Fix it."
+      theme="theme-red"
+    >
+      <MiniGameShell title="Elias' workshop" emoji="🛠️">
+        <div className={`fix-stage ${fixed ? 'is-fixed' : ''}`}>
+          <div className="fix-object-art">{selectedObject.emoji}</div>
+          <div className="fix-tool-art">{selectedTool.emoji}</div>
+          <FeedbackBubble>
+            {fixed ? `${selectedObject.done} Great work, Elias!` : `${selectedObject.title} needs a little fix.`}
+          </FeedbackBubble>
         </div>
-        <div className="fix-grid">
+
+        <div className="chooser-columns">
           <div>
             <h3>Pick something</h3>
-            <div className="button-grid">
+            <div className="choice-grid">
               {fixObjects.map((item) => (
-                <BigButton
+                <button
                   key={item.id}
-                  className={selectedObject === item.id ? 'active' : ''}
+                  className={`choice-card ${object === item.id ? 'selected' : ''}`}
                   onClick={() => {
-                    setSelectedObject(item.id);
-                    setResultMessage('');
+                    setObject(item.id);
+                    setFixed(false);
                   }}
+                  aria-label={`Pick ${item.title}`}
                 >
-                  {item.emoji} {item.name}
-                </BigButton>
+                  <span aria-hidden="true">{item.emoji}</span>
+                  {item.title}
+                </button>
               ))}
             </div>
           </div>
           <div>
             <h3>Pick a tool</h3>
-            <div className="button-grid">
-              {tools.slice(0, 4).map((item) => (
-                <BigButton
+            <div className="choice-grid">
+              {tools.slice(0, 3).map((item) => (
+                <button
                   key={item.id}
-                  className={selectedTool === item.id ? 'active' : ''}
+                  className={`choice-card ${tool === item.id ? 'selected' : ''}`}
                   onClick={() => {
-                    setSelectedTool(item.id);
-                    setResultMessage('');
+                    setTool(item.id);
+                    setFixed(false);
                   }}
+                  aria-label={`Pick ${item.title}`}
                 >
-                  {item.emoji} {item.name}
-                </BigButton>
+                  <span aria-hidden="true">{item.emoji}</span>
+                  {item.title}
+                </button>
               ))}
             </div>
           </div>
         </div>
-        <div className="fix-action-row">
-          <BigButton onClick={handleFix}>Fix it</BigButton>
-          {resultMessage && <FeedbackBubble message={resultMessage} />}
-        </div>
-      </div>
-    </section>
+        <BigButton onClick={fixIt} aria-label="Fix it">Fix it</BigButton>
+      </MiniGameShell>
+    </SectionPage>
   );
 }
 
-function WatchPage({ onBack }) {
+function WatchPage() {
   return (
-    <section className="section-page">
-      <SectionHeader
-        icon="🎬"
-        title="Watch & Learn"
-        description="Parent-approved videos only, no autoplay or random feeds."
-        onBack={onBack}
-      />
-      <div className="parent-note">Only add videos that have been watched and approved by a parent.</div>
-      <div className="video-grid">
-        {videos.map((video) => (
-          <VideoCard key={video.id} video={video} />
+    <SectionPage
+      eyebrow="Parent controlled"
+      title="Watch & Learn"
+      intro="No autoplay, no random feeds, and no child-facing external links. Add only videos you approve."
+      theme="theme-teal"
+    >
+      <div className="parent-note">Only add videos you have watched and approved.</div>
+      <div className="feature-grid video-grid">
+        {videos.map((video) => <VideoCard key={video.id} video={video} />)}
+      </div>
+    </SectionPage>
+  );
+}
+
+function PlayPage({ playTone }) {
+  const [answers, setAnswers] = useState({});
+  const [road, setRoad] = useState([]);
+  const [recycling, setRecycling] = useState([]);
+  const roadPieces = useMemo(() => Array.from({ length: 8 }, (_, index) => index), []);
+  const answerGame = (id, answer, correct) => {
+    setAnswers((current) => ({ ...current, [id]: answer === correct }));
+    playTone(answer === correct ? 520 : 330);
+  };
+
+  return (
+    <SectionPage
+      eyebrow="Play Zone"
+      title="Tap games"
+      intro="Simple games for matching, counting, sorting, finding, and building."
+      theme="theme-pink"
+    >
+      <div className="feature-grid game-grid">
+        {games.map((game) => (
+          <GameCard key={game.id} game={game}>
+            {game.id === 'build-road' && (
+              <div className="road-builder">
+                {roadPieces.map((piece) => (
+                  <button
+                    key={piece}
+                    className={`road-piece ${road.includes(piece) ? 'placed' : ''}`}
+                    onClick={() => setRoad((current) => (current.includes(piece) ? current : [...current, piece]))}
+                    aria-label={`Place road piece ${piece + 1}`}
+                  />
+                ))}
+                <FeedbackBubble>{road.length === roadPieces.length ? 'The road is ready!' : `${road.length}/8 road pieces`}</FeedbackBubble>
+              </div>
+            )}
+
+            {game.id === 'sort-recycling' && (
+              <div className="choice-grid">
+                {['paper', 'plastic', 'glass'].map((item) => (
+                  <button
+                    key={item}
+                    className={`choice-card ${recycling.includes(item) ? 'selected' : ''}`}
+                    onClick={() => setRecycling((current) => (current.includes(item) ? current : [...current, item]))}
+                  >
+                    {item}
+                  </button>
+                ))}
+                <FeedbackBubble>{recycling.length === 3 ? 'All sorted!' : 'Tap each recycling item.'}</FeedbackBubble>
+              </div>
+            )}
+
+            {!['build-road', 'sort-recycling'].includes(game.id) && (
+              <>
+                <div className="choice-grid">
+                  {game.choices.map((choice) => (
+                    <button
+                      key={choice}
+                      className="choice-card"
+                      onClick={() => answerGame(game.id, choice, game.answer)}
+                    >
+                      {choice}
+                    </button>
+                  ))}
+                </div>
+                {game.id in answers && <FeedbackBubble>{answers[game.id] ? 'You found it!' : 'Try again.'}</FeedbackBubble>}
+              </>
+            )}
+          </GameCard>
         ))}
       </div>
-    </section>
-  );
-}
-
-function PlayPage({ onBack, soundPlayer, muted }) {
-  return (
-    <section className="section-page">
-      <SectionHeader
-        icon="🎲"
-        title="Play Zone"
-        description="Count wheels, match tools, and build a happy road."
-        onBack={onBack}
-      />
-      <div className="section-note">Simple tap games with gentle feedback and bright cards.</div>
-      <MiniGameShell games={games} soundPlayer={soundPlayer} muted={muted} />
-    </section>
+    </SectionPage>
   );
 }
