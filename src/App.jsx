@@ -894,7 +894,9 @@ function BuildHousePage({ playTone, addAchievement }) {
       </div>
     </SectionPage>
   );
-}({ playTone, addAchievement }) {
+}
+
+function ParkingChallengePage({ playTone, addAchievement }) {
   return (
     <SectionPage
       eyebrow="Parking Challenge"
