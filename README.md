@@ -57,6 +57,27 @@ image: '/media/images/fire-truck.jpg'
 
 If an image is missing, EliasApp shows a polished emoji/CSS placeholder instead of a broken image.
 
+## Adding photos for Elias
+
+Put screwdriver photos in:
+
+```text
+public/media/images/screwdrivers/
+```
+
+Recommended filenames:
+
+- `phillips.jpg`
+- `flathead.jpg`
+- `stubby.jpg`
+- `long.jpg`
+- `toy-screwdriver.jpg`
+- `electric-screwdriver.jpg`
+
+Recommended image size: around 1200px wide or smaller.
+
+Use parent-approved photos only. Avoid random copyrighted images, avoid external hotlinks, and keep all videos parent-approved. If a screwdriver photo is missing, EliasApp uses the local SVG fallback illustrations in the same folder.
+
 ## Add Sounds
 
 Put sound files in:
@@ -92,6 +113,41 @@ Each video has:
 
 Only add videos you have watched and approved. The app does not autoplay videos and does not show random feeds or recommendations.
 
+## Parent Settings and Achievements
+
+EliasApp has a simple parent settings panel inside the app.
+
+Settings include:
+
+- sound on/off
+- reduced motion
+- calm mode
+- show/hide Watch & Learn
+- show/hide video cards
+- reset achievements
+
+Achievements are local-only and stored in `localStorage`. There is no login, account, server sync, analytics, or tracking.
+
+Current achievements:
+
+- First Fix
+- Wheel Counter
+- Bin Helper
+- Road Builder
+- Screwdriver Star
+- Tool Explorer
+
+## PWA Install Support
+
+EliasApp includes:
+
+- `public/manifest.webmanifest`
+- `public/icons/eliasapp-icon.svg`
+- `public/sw.js`
+- mobile app metadata in `index.html`
+
+The service worker caches only the app shell for basic offline loading. It does not cache random feeds or external content.
+
 ## Add a Vehicle, Tool, Machine, or Game
 
 Edit the relevant data file:
@@ -103,6 +159,7 @@ Edit the relevant data file:
 - `src/data/spinners.js`
 - `src/data/videos.js`
 - `src/data/games.js`
+- `src/data/screwdrivers.js`
 
 Each item should include:
 
@@ -150,6 +207,7 @@ src/
     spinners.js
     videos.js
     games.js
+    screwdrivers.js
 ```
 
 ## Child-Safety Notes

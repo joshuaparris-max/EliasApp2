@@ -1,12 +1,12 @@
 import BackButton from './BackButton.jsx';
 import MuteToggle from './MuteToggle.jsx';
 
-export default function Layout({ page, title, muted, onToggleMute, onBack, children }) {
+export default function Layout({ page, title, muted, onToggleMute, onBack, className = '', children }) {
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${className}`}>
       <header className="app-header">
         <div className="brand-mark" aria-label="EliasApp">
-          <span aria-hidden="true">🛠️</span>
+          <span aria-hidden="true">{'\u{1F6E0}\uFE0F'}</span>
           <div>
             <strong>EliasApp</strong>
             <small>{page === 'home' ? 'Playroom dashboard' : title}</small>

@@ -6,3 +6,4 @@ export { tools } from './tools.js';
 export { spinners } from './spinners.js';
 export { videos } from './videos.js';
 export { games, fixObjects } from './games.js';
+export { screwdrivers } from './screwdrivers.js';
