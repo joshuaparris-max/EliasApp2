@@ -1,0 +1,58 @@
+export const sections = [
+  {
+    id: 'garbage',
+    title: 'Garbage Trucks',
+    emoji: '🚛',
+    theme: 'theme-green',
+    description: 'Lift bins, sort recycling, and keep the street clean.',
+  },
+  {
+    id: 'construction',
+    title: 'Construction',
+    emoji: '🏗️',
+    theme: 'theme-yellow',
+    description: 'Dig, lift, tip, mix, and roll with friendly machines.',
+  },
+  {
+    id: 'cars',
+    title: 'Cars & Trucks',
+    emoji: '🚗',
+    theme: 'theme-blue',
+    description: 'Honk horns, switch headlights, spin wheels, and count.',
+  },
+  {
+    id: 'tools',
+    title: 'Tools',
+    emoji: '🧰',
+    theme: 'theme-orange',
+    description: 'Turn screws, open a toolbox, and fix a toy car.',
+  },
+  {
+    id: 'spin',
+    title: 'Things That Spin',
+    emoji: '⚙️',
+    theme: 'theme-purple',
+    description: 'Tap wheels, screws, mixers, fans, and tyres.',
+  },
+  {
+    id: 'build',
+    title: 'Build & Fix',
+    emoji: '🛠️',
+    theme: 'theme-red',
+    description: 'Pick a broken thing, choose a tool, and fix it.',
+  },
+  {
+    id: 'watch',
+    title: 'Watch & Learn',
+    emoji: '🎬',
+    theme: 'theme-teal',
+    description: 'Parent-approved videos only, with no autoplay.',
+  },
+  {
+    id: 'play',
+    title: 'Play Zone',
+    emoji: '🎲',
+    theme: 'theme-pink',
+    description: 'Count, match, find, sort, and build by tapping.',
+  },
+];

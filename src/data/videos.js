@@ -1,0 +1,9 @@
+// Parents should review every video before adding an embedUrl.
+export const videos = [
+  { id: 'garbage-day', title: 'Garbage day trucks', emoji: '🚛', description: 'Placeholder for a parent-approved garbage truck video.', fact: 'Videos never autoplay in EliasApp.', image: '/media/images/video-garbage.jpg', thumbnail: '/media/images/video-garbage.jpg', sound: '', category: 'Garbage trucks', embedUrl: '' },
+  { id: 'excavator-dig', title: 'Excavator digging', emoji: '🚜', description: 'Placeholder for a calm construction machine clip.', fact: 'Parents control all video content.', image: '/media/images/video-excavator.jpg', thumbnail: '/media/images/video-excavator.jpg', sound: '', category: 'Construction', embedUrl: '' },
+  { id: 'cars-drive', title: 'Cars and trucks', emoji: '🚗', description: 'Placeholder for a safe vehicle video.', fact: 'No random feeds or recommendations are shown.', image: '/media/images/video-cars.jpg', thumbnail: '/media/images/video-cars.jpg', sound: '', category: 'Cars & trucks', embedUrl: '' },
+  { id: 'tool-play', title: 'Pretend tool play', emoji: '🧰', description: 'Placeholder for supervised pretend tool learning.', fact: 'Tool play should stay supervised and safe.', image: '/media/images/video-tools.jpg', thumbnail: '/media/images/video-tools.jpg', sound: '', category: 'Tools', embedUrl: '' },
+  { id: 'spinning-wheels', title: 'Things that spin', emoji: '⚙️', description: 'Placeholder for wheels and gentle spinning.', fact: 'Animations and videos should stay calm.', image: '/media/images/video-spin.jpg', thumbnail: '/media/images/video-spin.jpg', sound: '', category: 'Spin', embedUrl: '' },
+  { id: 'building-blocks', title: 'Building blocks', emoji: '🧱', description: 'Placeholder for building and fixing fun.', fact: 'Parent-approved videos can be local files or embeds.', image: '/media/images/video-build.jpg', thumbnail: '/media/images/video-build.jpg', sound: '', category: 'Build', embedUrl: '' },
+];

@@ -1,20 +1,27 @@
 # EliasApp
 
-A joyful learning and play app for Elias, built with React and Vite. The app focuses on garbage trucks, construction machines, cars, tools, spinning things, building, fixing, and safe play.
+EliasApp is a bright, toddler-friendly React/Vite app for Elias. It is built around garbage trucks, construction machines, cars, trucks, wheels, tools, fixing, building, parent-approved videos, and simple tap games.
 
-## Install
+The app is designed to be calm, joyful, mobile-first, and safe for young children:
+
+- no login
+- no ads
+- no analytics or tracking
+- no comments or user-generated content
+- no autoplay videos
+- no random video feeds
+- no child-facing external links
+
+Repository: https://github.com/joshuaparris-max/EliasApp2
+
+## Run Locally
 
 ```bash
 npm install
-```
-
-## Run locally
-
-```bash
 npm run dev
 ```
 
-Open the local URL shown in your terminal.
+Vite will print a local URL, usually `http://localhost:5173`.
 
 ## Build
 
@@ -26,48 +33,129 @@ The production build is written to `dist/`.
 
 ## Deploy to Vercel
 
-1. Push this repository to GitHub.
-2. Add the repository in Vercel.
-3. Use the default Vite settings:
+1. Push the repo to GitHub: https://github.com/joshuaparris-max/EliasApp2
+2. In Vercel, choose **Add New Project**.
+3. Import the GitHub repo.
+4. Use the default Vite settings:
    - Build command: `npm run build`
    - Output directory: `dist`
+5. Deploy.
 
-## Push to GitHub
+## Add Images
 
-```bash
-git init
-git add .
-git commit -m "Initial toddler learning app for Elias"
-git branch -M main
-git remote add origin https://github.com/joshualparris/EliasApp.git
-git push -u origin main
+Put image files in:
+
+```text
+public/media/images/
 ```
 
-## Media files
+Then update the matching `image` field in the data files, for example:
 
-Add files under `public/media`:
+```js
+image: '/media/images/fire-truck.jpg'
+```
 
-- `public/media/images/`
-- `public/media/sounds/`
-- `public/media/videos/`
+If an image is missing, EliasApp shows a polished emoji/CSS placeholder instead of a broken image.
 
-Missing media shows safe emoji placeholders instead of breaking the app.
+## Add Sounds
 
-## Add a new vehicle, tool, video, or game
+Put sound files in:
 
-- Add vehicles in `src/data/vehicles.js`
-- Add tools in `src/data/tools.js`
-- Add construction machines in `src/data/constructionMachines.js`
-- Add garbage trucks in `src/data/garbageTrucks.js`
-- Add videos in `src/data/videos.js`
-- Add mini-games in `src/data/games.js`
-- Add pages in `src/pages/` and register them in `src/App.jsx`
+```text
+public/media/sounds/
+```
 
-## Child safety
+Then add or update the `sound` field in the matching data item. Sound is off by default and only plays after the parent enables it with the sound toggle.
 
-- No ads
-- No external links shown to the child UI
-- No autoplay
-- No comments
-- No tracking
-- Videos are parent-controlled placeholders until a parent adds content
+The current app also uses short generated tones for some interactions, so it still works if no sound files are present.
+
+## Add Parent-Approved Videos
+
+Video data lives in:
+
+```text
+src/data/videos.js
+```
+
+Each video has:
+
+```js
+{
+  id: 'garbage-day',
+  title: 'Garbage day trucks',
+  category: 'Garbage trucks',
+  description: 'A safe parent-approved video.',
+  thumbnail: '/media/images/video-garbage.jpg',
+  embedUrl: ''
+}
+```
+
+Only add videos you have watched and approved. The app does not autoplay videos and does not show random feeds or recommendations.
+
+## Add a Vehicle, Tool, Machine, or Game
+
+Edit the relevant data file:
+
+- `src/data/vehicles.js`
+- `src/data/tools.js`
+- `src/data/constructionMachines.js`
+- `src/data/garbageTrucks.js`
+- `src/data/spinners.js`
+- `src/data/videos.js`
+- `src/data/games.js`
+
+Each item should include:
+
+- `id`
+- `title`
+- `emoji`
+- `description`
+- `fact`
+- `image`
+- `sound`
+- `category`
+
+For home dashboard cards, edit:
+
+```text
+src/data/sections.js
+```
+
+## Project Structure
+
+```text
+src/
+  App.jsx
+  components/
+    Layout.jsx
+    HomeCard.jsx
+    SectionPage.jsx
+    BackButton.jsx
+    BigButton.jsx
+    MuteToggle.jsx
+    FeedbackBubble.jsx
+    VehicleCard.jsx
+    ToolCard.jsx
+    MachineCard.jsx
+    VideoCard.jsx
+    InteractiveSpinner.jsx
+    MiniGameShell.jsx
+    GameCard.jsx
+  data/
+    sections.js
+    vehicles.js
+    tools.js
+    constructionMachines.js
+    garbageTrucks.js
+    spinners.js
+    videos.js
+    games.js
+```
+
+## Child-Safety Notes
+
+- Keep videos parent-reviewed.
+- Keep real-world tool play supervised.
+- Avoid adding external links to the child UI.
+- Avoid flashing animations or loud surprise sounds.
+- Test on a phone or tablet before handing it to a child.
