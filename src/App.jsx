@@ -25,6 +25,9 @@ import { screwdrivers } from './data/screwdrivers.js';
 import { spinners } from './data/spinners.js';
 import { videos } from './data/videos.js';
 import { games, fixObjects } from './data/games.js';
+import { vehicleSounds } from './data/sounds.js';
+import SortingStationGame from './components/SortingStationGame.jsx';
+import { sortingGameData, sortingBins } from './data/sortingGame.js';
 
 const pageMap = Object.fromEntries(sections.map((section) => [section.id, section]));
 const defaultSettings = {
@@ -289,8 +292,10 @@ export default function App() {
       {page === 'screwdriver' && <ScrewdriverPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'spin' && <SpinPage />}
       {page === 'build' && <BuildFixPage playTone={playTone} addAchievement={addAchievement} />}
+      {page === 'sounds' && <SoundboardPage playTone={playTone} />}
       {page === 'watch' && <WatchPage showVideos={settings.showVideos} />}
       {page === 'play' && <PlayPage playTone={playTone} addAchievement={addAchievement} />}
+      {page === 'sorting' && <SortingStationPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'resources' && <ParentResources links={parentResources} onBack={() => setPage('home')} />}
       <ParentSettings
         settings={settings}
@@ -737,6 +742,35 @@ function BuildFixPage({ playTone, addAchievement }) {
   );
 }
 
+function SoundboardPage({ playTone }) {
+  return (
+    <SectionPage
+      eyebrow="Interactive Sounds"
+      title="Vehicle Soundboard"
+      intro="Tap the machines to hear their loud noises. Each one has a different sound!"
+      theme="theme-pink"
+    >
+      <div className="feature-grid soundboard-grid">
+        {vehicleSounds.map((item) => (
+          <button
+            key={item.id}
+            className="sound-card"
+            onClick={() => playTone(item.pitch)}
+            aria-label={`Play ${item.title} sound`}
+          >
+            <div className="sound-card-emoji">{item.emoji}</div>
+            <div className="sound-card-info">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </div>
+            <div className="sound-card-icon">{'\u{1F50A}'}</div>
+          </button>
+        ))}
+      </div>
+    </SectionPage>
+  );
+}
+
 function WatchPage({ showVideos }) {
   return (
     <SectionPage eyebrow="Parent controlled" title="Watch & Learn" intro="No autoplay, no random feeds, and no child-facing external links." theme="theme-teal">
@@ -806,6 +840,28 @@ function PlayPage({ playTone, addAchievement }) {
               </>
             )}
           </GameCard>
+        ))}
+      </div>
+    </SectionPage>
+  );
+}
+
+function SortingStationPage({ playTone, addAchievement }) {
+  return (
+    <SectionPage
+      eyebrow="Sorting Station"
+      title="Sort items"
+      intro="Put each item in the correct bin. Tap the bin to sort it!"
+      theme="theme-teal"
+    >
+      <SortingStationGame items={sortingGameData} bins={sortingBins} playTone={playTone} />
+      <div className="feature-grid">
+        {sortingGameData.map((item) => (
+          <article className="feature-card" key={item.id}>
+            <div className="emoji-large">{item.emoji}</div>
+            <h3>{item.name}</h3>
+            <p>{item.category}</p>
+          </article>
         ))}
       </div>
     </SectionPage>

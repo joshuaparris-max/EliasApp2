@@ -49,6 +49,13 @@ export const sections = [
     description: 'Pick a broken thing, choose a tool, and fix it.',
   },
   {
+    id: 'sounds',
+    title: 'Vehicle Sounds',
+    emoji: '\u{1F50A}',
+    theme: 'theme-pink',
+    description: 'Tap the trucks and tools to hear their big noises.',
+  },
+  {
     id: 'watch',
     title: 'Watch & Learn',
     emoji: '\u{1F3AC}',
@@ -61,5 +68,12 @@ export const sections = [
     emoji: '\u{1F3B2}',
     theme: 'theme-pink',
     description: 'Count, match, find, sort, and build by tapping.',
+  },
+  {
+    id: 'sorting',
+    title: 'Sorting Station',
+    emoji: '\u{1F5C3}\uFE0F',
+    theme: 'theme-teal',
+    description: 'Put items into the correct bins with a conveyor belt.',
   },
 ];
