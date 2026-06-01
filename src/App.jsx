@@ -15,6 +15,7 @@ import MediaImage from './components/MediaImage.jsx';
 import ScrewdriverCard from './components/ScrewdriverCard.jsx';
 import RoadBuilderGame from './components/RoadBuilderGame.jsx';
 import ParentSettings from './components/ParentSettings.jsx';
+import ParentResources from './components/ParentResources.jsx';
 import { sections } from './data/sections.js';
 import { garbageTrucks } from './data/garbageTrucks.js';
 import { constructionMachines } from './data/constructionMachines.js';
@@ -105,6 +106,58 @@ const recommendedApps = [
   },
 ];
 
+const parentResources = [
+  {
+    id: 'toy-theater-build',
+    title: 'Toy Theater Build',
+    description: 'Simple browser block building for early stacking and arranging.',
+    url: 'https://toytheater.com/build/',
+    category: 'Web game',
+  },
+  {
+    id: 'toy-theater',
+    title: 'Toy Theater',
+    description: 'A broader collection of early learning browser games for parent review.',
+    url: 'https://toytheater.com/',
+    category: 'Web game',
+  },
+  {
+    id: 'crazygames-building',
+    title: 'CrazyGames Building Games',
+    description: 'Portal with many building experiences; parent supervision is required.',
+    url: 'https://www.crazygames.com/t/build',
+    category: 'Web game',
+  },
+  {
+    id: 'scratchjr',
+    title: 'Scratch Jr',
+    description: 'Beginner creative coding for preschoolers and older children.',
+    url: 'https://www.scratchjr.org/',
+    category: 'Web game',
+  },
+  {
+    id: 'code-org',
+    title: 'Code.org',
+    description: 'Beginner-friendly visual coding with blocks and animations.',
+    url: 'https://code.org/',
+    category: 'Web game',
+  },
+  {
+    id: 'lego-duplo-world',
+    title: 'LEGO DUPLO World',
+    description: 'Parent-reviewed DUPLO-style building for toddlers.',
+    url: 'https://play.google.com/store/apps/details?id=com.storytoys.lego.duplo.world.kids.play.free.friends.animals.androidgoogleplay',
+    category: 'App review',
+  },
+  {
+    id: 'dr-panda-trucks',
+    title: 'Dr. Panda Trucks',
+    description: 'Construction truck play with cranes, loaders, and building scenes.',
+    url: 'https://apps.apple.com/us/app/dr-panda-trucks/id1226883811',
+    category: 'App review',
+  },
+];
+
 function readStorage(key, fallback) {
   if (typeof window === 'undefined') return fallback;
   try {
@@ -152,6 +205,7 @@ export default function App() {
   const [settings, setSettings] = useState(() => readStorage('eliasapp-settings', defaultSettings));
   const [achievements, setAchievements] = useState(() => readStorage('eliasapp-achievements', []));
   const activeSection = pageMap[page];
+  const pageTitle = page === 'resources' ? 'Parent resources' : activeSection?.title || 'EliasApp';
   const muted = !settings.sound;
   const playTone = (pitch) => playSoftTone(muted, pitch);
   const visibleSections = sections.filter((section) => settings.showWatch || section.id !== 'watch');
@@ -179,7 +233,7 @@ export default function App() {
   return (
     <Layout
       page={page}
-      title={activeSection?.title || 'EliasApp'}
+      title={pageTitle}
       muted={muted}
       className={`${settings.calmMode ? 'calm-mode' : ''} ${settings.reducedMotion ? 'reduce-motion' : ''}`}
       onToggleMute={() => updateSetting('sound', !settings.sound)}
@@ -195,11 +249,13 @@ export default function App() {
       {page === 'build' && <BuildFixPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'watch' && <WatchPage showVideos={settings.showVideos} />}
       {page === 'play' && <PlayPage playTone={playTone} addAchievement={addAchievement} />}
+      {page === 'resources' && <ParentResources links={parentResources} onBack={() => setPage('home')} />}
       <ParentSettings
         settings={settings}
         achievements={achievements}
         onSettingChange={updateSetting}
         onResetAchievements={resetAchievements}
+        onOpenResources={() => setPage('resources')}
       />
     </Layout>
   );

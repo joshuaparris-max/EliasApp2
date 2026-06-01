@@ -1,6 +1,6 @@
 import BigButton from './BigButton.jsx';
 
-export default function ParentSettings({ settings, achievements, onSettingChange, onResetAchievements }) {
+export default function ParentSettings({ settings, achievements, onSettingChange, onResetAchievements, onOpenResources }) {
   return (
     <section className="parent-settings" aria-label="Parent settings">
       <details>
@@ -30,7 +30,10 @@ export default function ParentSettings({ settings, achievements, onSettingChange
         <div className="achievement-row">
           <strong>Achievements:</strong> {achievements.length ? achievements.join(', ') : 'None yet'}
         </div>
-        <BigButton onClick={onResetAchievements}>Reset achievements</BigButton>
+        <div className="settings-actions">
+          <BigButton onClick={onOpenResources}>Open parent resources</BigButton>
+          <BigButton onClick={onResetAchievements}>Reset achievements</BigButton>
+        </div>
       </details>
     </section>
   );

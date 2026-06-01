@@ -43,7 +43,7 @@ These links are maintained here for parent review. They are not currently displa
 
 ## Remaining work
 
-- [ ] Add a parent-only resources page in EliasApp for these links and external recommendations
-- [ ] Add explicit recommended builder apps section to the child UI only if parent-approved and safe
-- [ ] Add more local or bundled media assets for offline-safe video previews
+- [x] Add a parent-only resources page in EliasApp for these links and external recommendations
+- [x] Add explicit recommended builder apps section to the child UI only if parent-approved and safe
+- [x] Add more local or bundled media assets for offline-safe video previews
 - [ ] Keep docs/todo.md updated as app features evolve
