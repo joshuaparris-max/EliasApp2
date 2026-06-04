@@ -667,27 +667,27 @@ action-row.compact .big-button {
 
 .memory-game {
   display: grid;
-  gap: 22px;
+  gap: 24px;
 }
 
 .memory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 20px;
   justify-items: center;
 }
 
 .memory-card {
-  min-width: 130px;
-  min-height: 140px;
-  padding: 18px;
-  border-radius: 24px;
+  min-width: 170px;
+  min-height: 170px;
+  padding: 22px;
+  border-radius: 26px;
   border: 2px solid var(--line);
   background: rgba(255, 255, 255, 0.97);
   box-shadow: var(--shadow-soft);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   color: var(--ink);
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
@@ -719,16 +719,28 @@ action-row.compact .big-button {
   outline-offset: 4px;
 }
 
+.memory-card span,
+.memory-card::before,
+.memory-card::after {
+  font-size: 2.4rem;
+}
+
 @media (max-width: 720px) {
   .memory-grid {
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
   }
 
   .memory-card {
-    min-height: 120px;
-    padding: 16px;
-    font-size: 1.1rem;
+    min-height: 150px;
+    padding: 18px;
+    font-size: 1.3rem;
+  }
+
+  .memory-card span,
+  .memory-card::before,
+  .memory-card::after {
+    font-size: 2rem;
   }
 }
 
