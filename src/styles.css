@@ -715,6 +715,71 @@ action-row.compact .big-button {
     linear-gradient(135deg, var(--theme, #dff3ff), #ffffff);
 }
 
+/* Icon-only and small controls: ensure minimum hit area */
+button.icon-btn,
+.icon-btn,
+.brand-mark,
+.play-badge,
+.resource-link {
+  min-width: 56px;
+  min-height: 56px;
+  padding: 8px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 12px;
+}
+
+.brand-mark {
+  background: transparent;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.brand-mark > span { font-size: 1.6rem; width: 56px; height: 56px; display: grid; place-items:center; border-radius:12px; background: linear-gradient(135deg, var(--yellow), var(--orange)); }
+
+.play-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+
+.tag,
+.resource-badge,
+.hero-badge,
+.sort-chip {
+  padding: 8px 10px;
+  font-size: 0.98rem;
+  min-height: 36px;
+  border-radius: 999px;
+}
+
+/* Ensure buttons inside feature cards are large enough */
+.feature-card button,
+.video-card button,
+.game-card button,
+.tool-card button,
+.machine-card button {
+  min-height: 56px;
+  padding: 12px 14px;
+}
+
+/* Video thumbnails slightly taller on small screens */
+@media (max-width: 900px) {
+  .media-image, .media-fallback { aspect-ratio: 16/9; }
+}
+
 .media-fallback {
   display: grid;
   place-items: center;

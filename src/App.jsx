@@ -365,6 +365,7 @@ export default function App() {
         className={`${settings.calmMode ? 'calm-mode' : ''} ${settings.reducedMotion ? 'reduce-motion' : ''}`}
         onToggleMute={() => updateSetting('sound', !settings.sound)}
         onBack={handleBack}
+        onHome={() => setPage('home')}
       >
         {sessionEnded && closingRitual && (
           <div style={{ background: 'rgba(60, 120, 100, 0.15)', border: '2px solid rgba(100, 200, 160, 0.3)', borderRadius: '12px', padding: '16px', marginBottom: '16px', textAlign: 'center' }}>
