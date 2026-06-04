@@ -279,7 +279,7 @@ export default function App() {
   const [closingRitual, setClosingRitual] = useState('');
   const activeSection = pageMap[page];
   const pageTitle = page === 'resources' ? 'Parent resources' : activeSection?.title || 'EliasApp';
-  const muted = !settings.sound;
+  const muted = !settings.sound || settings.calmMode;
   const playTone = (pitch) => playSoftTone(muted, pitch);
   const visibleSections = sections.filter((section) => settings.showWatch || section.id !== 'watch');
 
@@ -371,7 +371,7 @@ export default function App() {
             <p style={{ margin: '0', color: '#f4ead7', fontSize: '1.1rem' }}>🎯 <strong>Now try:</strong> {closingRitual}</p>
           </div>
         )}
-        {page === 'home' && <HomePage onOpen={handleOpen} sections={visibleSections} achievements={achievements} />}
+        {page === 'home' && <HomePage onOpen={handleOpen} sections={visibleSections} achievements={achievements} settings={settings} />}
       {page === 'garbage' && <GarbagePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'construction' && <ConstructionPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'cars' && <CarsPage muted={muted} playTone={playTone} addAchievement={addAchievement} />}
@@ -400,9 +400,10 @@ export default function App() {
   );
 }
 
-function HomePage({ onOpen, sections: visibleSections, achievements }) {
+function HomePage({ onOpen, sections: visibleSections, achievements, settings }) {
   const [ideaSeed, setIdeaSeed] = useState(() => new Date().getDate());
-  const ideas = useMemo(() => pickToday(ideaSeed), [ideaSeed]);
+  let ideas = useMemo(() => pickToday(ideaSeed), [ideaSeed]);
+  if (settings?.calmMode) ideas = ideas.slice(0, 2);
 
   return (
     <div className="home-page">
@@ -448,7 +449,7 @@ function HomePage({ onOpen, sections: visibleSections, achievements }) {
       )}
 
       <section className="home-card-grid" aria-label="Play sections">
-        {visibleSections.map((section) => (
+        {(settings?.calmMode ? visibleSections.slice(0, 5) : visibleSections).map((section) => (
           <HomeCard key={section.id} section={section} onOpen={onOpen} />
         ))}
       </section>

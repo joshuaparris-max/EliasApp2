@@ -399,6 +399,41 @@ button:focus-visible {
   font-size: 1.35rem;
 }
 
+/* Calm mode: reduce visual noise, hide ornaments, and limit on-screen items */
+.app-shell.calm-mode {
+  --muted: #6b7f89;
+  background: linear-gradient(180deg, #fbfdfd 0%, #f7faf9 100%);
+}
+.app-shell.calm-mode .hero-yard .sun,
+.app-shell.calm-mode .hero-yard .cloud,
+.app-shell.calm-mode .hero-crane,
+.app-shell.calm-mode .hero-truck,
+.app-shell.calm-mode .hero-tools,
+.app-shell.calm-mode .floating-tool {
+  display: none;
+}
+.app-shell.calm-mode .home-card-grid > *:nth-child(n+6),
+.app-shell.calm-mode .feature-grid > *:nth-child(n+6) {
+  display: none;
+}
+.app-shell.calm-mode .action-row > *:nth-child(n+4) {
+  display: none;
+}
+.app-shell.calm-mode .feedback-bubble span[aria-hidden="true"] {
+  opacity: 0.6;
+}
+.app-shell.calm-mode .home-hero,
+.app-shell.calm-mode .hero-copy {
+  opacity: 0.96;
+}
+.app-shell.calm-mode .home-hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+
+/* Prefer reduced motion in calm mode */
+.app-shell.calm-mode * {
+  animation: none !important;
+  transition-duration: 120ms !important;
+}
+
 .home-card-copy span {
   display: block;
   color: rgba(32, 49, 63, 0.76);
