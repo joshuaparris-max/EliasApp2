@@ -258,6 +258,15 @@ function pickToday(seed) {
     .map((item) => item.activity);
 }
 
+const closingRituals = [
+  'Find something with wheels.',
+  'Push a toy truck across the floor.',
+  'Show dad a screwdriver shape.',
+  'Make a quiet beep-beep sound together.',
+  'Count the wheels on a real car.',
+  'Open the real toolbox.',
+];
+
 export default function App() {
   const [page, setPage] = useState('home');
   const [settings, setSettings] = useState(() => readStorage('eliasapp-settings', defaultSettings));
@@ -265,6 +274,9 @@ export default function App() {
   const [sessionActive, setSessionActive] = useState(false);
   const [sessionSeconds, setSessionSeconds] = useState(0);
   const [sessionMessage, setSessionMessage] = useState('Invite a grown-up to play together. Keep sessions short and calm.');
+  const [showCoPlayPrompt, setShowCoPlayPrompt] = useState(() => readStorage('eliasapp-seen-coplays', 0) === 0);
+  const [sessionEnded, setSessionEnded] = useState(false);
+  const [closingRitual, setClosingRitual] = useState('');
   const activeSection = pageMap[page];
   const pageTitle = page === 'resources' ? 'Parent resources' : activeSection?.title || 'EliasApp';
   const muted = !settings.sound;
@@ -284,19 +296,25 @@ export default function App() {
     }
     if (sessionSeconds === 600) {
       setSessionMessage('10 minutes — time to finish and share your favourite part with a grown-up.');
+      const ritual = closingRituals[Math.floor(Math.random() * closingRituals.length)];
+      setClosingRitual(ritual);
     }
   }, [sessionActive, sessionSeconds]);
 
   function startSession() {
     setSessionActive(true);
     setSessionSeconds(0);
-    setSessionMessage('Invite a grown-up to join the play. Keep this session calm and short.');
+    setSessionMessage('Sit with Elias and name what he taps. Enjoy playing together!');
+    setSessionEnded(false);
+    setClosingRitual('');
   }
 
   function stopSession() {
     setSessionActive(false);
     setSessionSeconds(0);
     setSessionMessage('Invite a grown-up to join the play. Keep sessions short and calm.');
+    setSessionEnded(true);
+    setTimeout(() => setSessionEnded(false), 8000);
   }
 
   function handleOpen(sectionId) {
@@ -330,16 +348,30 @@ export default function App() {
   }
 
   return (
-    <Layout
-      page={page}
-      title={pageTitle}
-      muted={muted}
-      sessionNote={sessionActive ? `Session ${formatTime(sessionSeconds)} — ${sessionMessage}` : undefined}
-      className={`${settings.calmMode ? 'calm-mode' : ''} ${settings.reducedMotion ? 'reduce-motion' : ''}`}
-      onToggleMute={() => updateSetting('sound', !settings.sound)}
-      onBack={handleBack}
-    >
-      {page === 'home' && <HomePage onOpen={handleOpen} sections={visibleSections} achievements={achievements} />}
+    <>
+      {showCoPlayPrompt && (
+        <div className="co-play-prompt" style={{ background: 'rgba(15, 27, 45, 0.95)', padding: '20px', borderRadius: '12px', margin: '16px', textAlign: 'center', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto' }}>
+          <h2 style={{ margin: '0 0 12px', fontSize: '1.4rem', color: '#f4ead7' }}>👋 Start Playing Together</h2>
+          <p style={{ margin: '0 0 12px', color: '#aab5c6', lineHeight: '1.6' }}>Sit with Elias for a few minutes. Name what he taps and copy the sounds together.</p>
+          <p style={{ margin: '0 0 16px', color: '#f3c75f', fontWeight: '700' }}>This keeps his brain learning and screen time calm.</p>
+          <button onClick={() => { setShowCoPlayPrompt(false); writeStorage('eliasapp-seen-coplays', 1); }} style={{ background: 'linear-gradient(180deg, #f0cc73, #dfae37)', color: '#1b1300', border: 'none', borderRadius: '999px', padding: '12px 24px', fontWeight: '700', cursor: 'pointer', fontSize: '1rem' }}>Start together</button>
+        </div>
+      )}
+      <Layout
+        page={page}
+        title={pageTitle}
+        muted={muted}
+        sessionNote={sessionActive ? `Session ${formatTime(sessionSeconds)} — ${sessionMessage}` : undefined}
+        className={`${settings.calmMode ? 'calm-mode' : ''} ${settings.reducedMotion ? 'reduce-motion' : ''}`}
+        onToggleMute={() => updateSetting('sound', !settings.sound)}
+        onBack={handleBack}
+      >
+        {sessionEnded && closingRitual && (
+          <div style={{ background: 'rgba(60, 120, 100, 0.15)', border: '2px solid rgba(100, 200, 160, 0.3)', borderRadius: '12px', padding: '16px', marginBottom: '16px', textAlign: 'center' }}>
+            <p style={{ margin: '0', color: '#f4ead7', fontSize: '1.1rem' }}>🎯 <strong>Now try:</strong> {closingRitual}</p>
+          </div>
+        )}
+        {page === 'home' && <HomePage onOpen={handleOpen} sections={visibleSections} achievements={achievements} />}
       {page === 'garbage' && <GarbagePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'construction' && <ConstructionPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'cars' && <CarsPage muted={muted} playTone={playTone} addAchievement={addAchievement} />}
@@ -364,6 +396,7 @@ export default function App() {
         onOpenResources={() => setPage('resources')}
       />
     </Layout>
+    </>
   );
 }
 
