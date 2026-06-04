@@ -1339,6 +1339,28 @@ button:focus-visible {
   color: var(--muted);
 }
 
+.parent-prompts {
+  margin: var(--space-4) 0;
+  padding: var(--space-3);
+  background: rgba(191, 233, 255, 0.15);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+.parent-prompts strong {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--ink);
+  font-weight: 950;
+}
+
+.prompt-text {
+  margin: 0 0 var(--space-3) 0;
+  font-weight: 750;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
 .scene-bin {
   width: 46px;
   height: 70px;

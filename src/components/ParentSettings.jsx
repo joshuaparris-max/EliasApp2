@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import BigButton from './BigButton.jsx';
+import { parentPrompts } from '../data/vocabulary.js';
 
 export default function ParentSettings({ settings, achievements, onSettingChange, onResetAchievements, onOpenResources }) {
+  const [promptIndex, setPromptIndex] = useState(0);
+
   return (
     <section className="parent-settings" aria-label="Parent settings">
       <details>
@@ -29,6 +33,11 @@ export default function ParentSettings({ settings, achievements, onSettingChange
         </div>
         <div className="achievement-row">
           <strong>Achievements:</strong> {achievements.length ? achievements.join(', ') : 'None yet'}
+        </div>
+        <div className="parent-prompts">
+          <strong>💡 Today's co-play prompt:</strong>
+          <p className="prompt-text">{parentPrompts[promptIndex % parentPrompts.length]}</p>
+          <BigButton onClick={() => setPromptIndex((i) => i + 1)}>Next prompt</BigButton>
         </div>
         <div className="settings-actions">
           <BigButton onClick={onOpenResources}>Open parent resources</BigButton>
