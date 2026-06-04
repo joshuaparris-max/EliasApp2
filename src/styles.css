@@ -1588,6 +1588,116 @@ button.icon-btn,
   background: #f7fbff;
 }
 
+.sorting-station-game {
+  display: grid;
+  gap: 24px;
+}
+
+.conveyor-section {
+  display: grid;
+  justify-items: center;
+  padding: var(--space-3);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+}
+
+.conveyor-belt {
+  min-width: 260px;
+  min-height: 170px;
+  width: 100%;
+  max-width: 560px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  padding: 24px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(235, 251, 255, 0.95), #ffffff);
+  box-shadow: inset 0 0 0 1px rgba(32, 49, 63, 0.04);
+}
+
+.conveyor-item {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  min-height: 160px;
+  min-width: 220px;
+  padding: 24px;
+  border-radius: 28px;
+  background: #ffffff;
+  border: 2px solid rgba(32, 49, 63, 0.06);
+  box-shadow: var(--shadow-soft);
+}
+
+.item-emoji {
+  font-size: clamp(4.2rem, 9vw, 6.2rem);
+}
+
+.bin-zone {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.sort-bin {
+  display: grid;
+  gap: 12px;
+  min-height: 140px;
+  padding: 22px 18px;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ink);
+  font-weight: 900;
+  font-size: 1.1rem;
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.sort-bin:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.12);
+}
+
+.sort-bin span {
+  font-size: 2.2rem;
+}
+
+.sort-bin strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.05rem;
+}
+
+.sorting-station-game + .feature-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+@media (max-width: 760px) {
+  .conveyor-belt {
+    min-height: 150px;
+    padding: 18px;
+  }
+
+  .conveyor-item {
+    min-width: 100%;
+    padding: 18px;
+  }
+
+  .bin-zone {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .sort-bin {
+    min-height: 130px;
+    padding: 18px 14px;
+  }
+}
+
 .road-game {
   display: grid;
   gap: var(--space-3);
