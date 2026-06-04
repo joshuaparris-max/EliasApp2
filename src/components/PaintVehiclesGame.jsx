@@ -15,8 +15,10 @@ export default function PaintVehiclesGame({ colors, playTone }) {
   return (
     <div className="paint-game">
       <div className="paint-canvas">
-        <div className="vehicle-to-paint" style={{ color: selectedHex }}>
-          🚙
+        <div className="vehicle-to-paint">
+          <div className="vehicle-preview" style={{ backgroundColor: selectedHex }}>
+            <span className="vehicle-emoji">🚙</span>
+          </div>
         </div>
         <p>Current color: {colors.find((c) => c.id === vehicleColor)?.name}</p>
       </div>
