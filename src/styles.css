@@ -156,6 +156,37 @@ p {
   transition: transform var(--fast), box-shadow var(--fast), background var(--fast);
 }
 
+/* Larger touch targets for kid-friendly UX */
+.big-button,
+.choice-card,
+.back-button,
+.mute-toggle,
+.home-card-cta,
+.sort-chip {
+  min-height: 56px;
+  padding: 14px 18px;
+  font-size: 1.05rem;
+}
+
+.choice-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  border-radius: 14px;
+}
+
+.home-card {
+  min-height: 240px;
+  padding: 24px;
+}
+
+.home-card-icon {
+  width: 86px;
+  height: 86px;
+  font-size: 2.8rem;
+}
+
 .back-button,
 .mute-toggle {
   display: inline-flex;
@@ -366,6 +397,17 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(12px, 2vw, 20px);
+}
+
+@media (max-width: 900px) {
+  .home-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .action-row { gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .big-button, .choice-card { min-height: 64px; padding: 16px 18px; font-size: 1.1rem; }
+  .home-card { min-height: 220px; padding: 18px; }
 }
 
 .home-card {
