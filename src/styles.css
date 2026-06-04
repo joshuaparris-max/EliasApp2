@@ -126,6 +126,21 @@ p {
   padding: clamp(16px, 4vw, 34px) 0 44px;
 }
 
+.session-note {
+  width: min(1240px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 14px 18px;
+  background: #fff5d7;
+  border: 1px solid rgba(255, 206, 129, 0.75);
+  color: #4b3f16;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(255, 201, 118, 0.15);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  margin-top: -12px;
+  margin-bottom: 24px;
+}
+
 .back-button,
 .mute-toggle,
 .big-button {
@@ -209,6 +224,17 @@ button:focus-visible {
   color: #31515d;
   font-weight: 900;
   border: 1px solid var(--line);
+}
+
+.hero-note {
+  margin-top: 18px;
+  max-width: 43rem;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #2c3d4d;
+  font-weight: 700;
+  border: 1px solid rgba(39, 70, 101, 0.12);
 }
 
 .home-hero h1,

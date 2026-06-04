@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Layout from './components/Layout.jsx';
 import HomeCard from './components/HomeCard.jsx';
 import SectionPage from './components/SectionPage.jsx';
@@ -44,6 +44,12 @@ const defaultSettings = {
   showWatch: true,
   showVideos: true,
 };
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const secs = (seconds % 60).toString().padStart(2, '0');
+  return `${mins}:${secs}`;
+}
 
 const todayActivities = [
   'Turn the big screw',
@@ -256,11 +262,52 @@ export default function App() {
   const [page, setPage] = useState('home');
   const [settings, setSettings] = useState(() => readStorage('eliasapp-settings', defaultSettings));
   const [achievements, setAchievements] = useState(() => readStorage('eliasapp-achievements', []));
+  const [sessionActive, setSessionActive] = useState(false);
+  const [sessionSeconds, setSessionSeconds] = useState(0);
+  const [sessionMessage, setSessionMessage] = useState('Invite a grown-up to play together. Keep sessions short and calm.');
   const activeSection = pageMap[page];
   const pageTitle = page === 'resources' ? 'Parent resources' : activeSection?.title || 'EliasApp';
   const muted = !settings.sound;
   const playTone = (pitch) => playSoftTone(muted, pitch);
   const visibleSections = sections.filter((section) => settings.showWatch || section.id !== 'watch');
+
+  useEffect(() => {
+    if (!sessionActive) return undefined;
+    const interval = window.setInterval(() => setSessionSeconds((seconds) => seconds + 1), 1000);
+    return () => window.clearInterval(interval);
+  }, [sessionActive]);
+
+  useEffect(() => {
+    if (!sessionActive) return;
+    if (sessionSeconds === 480) {
+      setSessionMessage('8 minutes in — wrap up gently and get ready to end the play.');
+    }
+    if (sessionSeconds === 600) {
+      setSessionMessage('10 minutes — time to finish and share your favourite part with a grown-up.');
+    }
+  }, [sessionActive, sessionSeconds]);
+
+  function startSession() {
+    setSessionActive(true);
+    setSessionSeconds(0);
+    setSessionMessage('Invite a grown-up to join the play. Keep this session calm and short.');
+  }
+
+  function stopSession() {
+    setSessionActive(false);
+    setSessionSeconds(0);
+    setSessionMessage('Invite a grown-up to join the play. Keep sessions short and calm.');
+  }
+
+  function handleOpen(sectionId) {
+    setPage(sectionId);
+    startSession();
+  }
+
+  function handleBack() {
+    setPage('home');
+    stopSession();
+  }
 
   function updateSetting(key, value) {
     const next = { ...settings, [key]: value };
@@ -287,11 +334,12 @@ export default function App() {
       page={page}
       title={pageTitle}
       muted={muted}
+      sessionNote={sessionActive ? `Session ${formatTime(sessionSeconds)} — ${sessionMessage}` : undefined}
       className={`${settings.calmMode ? 'calm-mode' : ''} ${settings.reducedMotion ? 'reduce-motion' : ''}`}
       onToggleMute={() => updateSetting('sound', !settings.sound)}
-      onBack={() => setPage('home')}
+      onBack={handleBack}
     >
-      {page === 'home' && <HomePage onOpen={setPage} sections={visibleSections} achievements={achievements} />}
+      {page === 'home' && <HomePage onOpen={handleOpen} sections={visibleSections} achievements={achievements} />}
       {page === 'garbage' && <GarbagePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'construction' && <ConstructionPage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'cars' && <CarsPage muted={muted} playTone={playTone} addAchievement={addAchievement} />}
@@ -307,7 +355,7 @@ export default function App() {
       {page === 'house' && <BuildHousePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'memory' && <MemoryGamePage playTone={playTone} addAchievement={addAchievement} />}
       {page === 'paint' && <PaintGamePage playTone={playTone} addAchievement={addAchievement} />}
-      {page === 'resources' && <ParentResources links={parentResources} onBack={() => setPage('home')} />}
+      {page === 'resources' && <ParentResources links={parentResources} onBack={handleBack} />}
       <ParentSettings
         settings={settings}
         achievements={achievements}
@@ -334,6 +382,7 @@ function HomePage({ onOpen, sections: visibleSections, achievements }) {
             A safe little vehicle and tool play world with bins to collect, roads to build,
             wheels to count, and screwdrivers to turn.
           </p>
+          <div className="hero-note">Invite a grown-up to start the play and keep sessions calm, short, and parent-led. After ten minutes, pause and bring the play into the real world with a toy truck or block activity.</div>
         </div>
         <div className="hero-yard" aria-hidden="true">
           <div className="sun" />

@@ -1,7 +1,7 @@
 import BackButton from './BackButton.jsx';
 import MuteToggle from './MuteToggle.jsx';
 
-export default function Layout({ page, title, muted, onToggleMute, onBack, className = '', children }) {
+export default function Layout({ page, title, muted, sessionNote, onToggleMute, onBack, className = '', children }) {
   return (
     <div className={`app-shell ${className}`}>
       <header className="app-header">
@@ -17,6 +17,7 @@ export default function Layout({ page, title, muted, onToggleMute, onBack, class
           <MuteToggle muted={muted} onToggle={onToggleMute} />
         </div>
       </header>
+      {sessionNote ? <div className="session-note">{sessionNote}</div> : null}
       <main className="page-content">{children}</main>
     </div>
   );
