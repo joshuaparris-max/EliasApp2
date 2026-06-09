@@ -29,14 +29,23 @@ export default function ParkingChallengeGame({ trucks, spots, playTone }) {
     }
   }
 
+  function resetGame() {
+    setRemaining(trucks);
+    setParked({});
+    setCurrentTruck(trucks[0]);
+    setComplete(false);
+  }
+
   return (
     <div className="parking-challenge-game">
       <div className="parking-instruction">
-        <h3>Bring the truck to its spot</h3>
-        <div className="current-truck">
-          <span className="truck-emoji">{currentTruck.emoji}</span>
-          <strong>{currentTruck.name}</strong>
-        </div>
+        <h3>{complete ? 'Great parking!' : 'Bring the truck to its spot'}</h3>
+        {!complete && (
+          <div className="current-truck">
+            <span className="truck-emoji">{currentTruck.emoji}</span>
+            <strong>{currentTruck.name}</strong>
+          </div>
+        )}
       </div>
 
       <div className="parking-spots-grid">
@@ -46,7 +55,7 @@ export default function ParkingChallengeGame({ trucks, spots, playTone }) {
             className={`parking-spot ${parked[spot.id] ? 'occupied' : ''}`}
             style={{ backgroundColor: parked[spot.id] ? '#ccc' : spot.color }}
             onClick={() => parkTruck(spot)}
-            disabled={parked[spot.id] !== undefined}
+            disabled={complete || parked[spot.id] !== undefined}
             aria-label={`Park in ${spot.label} spot`}
           >
             {parked[spot.id] && <span className="parked-truck">{parked[spot.id].emoji}</span>}
@@ -57,11 +66,11 @@ export default function ParkingChallengeGame({ trucks, spots, playTone }) {
 
       <FeedbackBubble>
         {complete
-          ? 'All trucks parked! Great job!'
+          ? 'All trucks parked! 🌟 You are a master driver!'
           : `${trucks.length - remaining.length + 1}/${trucks.length} trucks parked.`}
       </FeedbackBubble>
 
-      {complete && <BigButton onClick={() => window.location.reload()}>Play again</BigButton>}
+      {complete && <BigButton onClick={resetGame}>Play again</BigButton>}
     </div>
   );
 }

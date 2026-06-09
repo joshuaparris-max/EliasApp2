@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import FeedbackBubble from './FeedbackBubble.jsx';
+import BigButton from './BigButton.jsx';
 
 export default function SoundMemoryGame({ cards, playTone }) {
   const [flipped, setFlipped] = useState({});
@@ -43,6 +44,14 @@ export default function SoundMemoryGame({ cards, playTone }) {
   }
 
   const matchedCount = Object.values(matched).length / 2;
+  const complete = matchedCount === cards.length / 2;
+
+  function resetGame() {
+    setFlipped({});
+    setMatched({});
+    setFirstCard(null);
+    setSecondCard(null);
+  }
 
   return (
     <div className="memory-game">
@@ -52,16 +61,18 @@ export default function SoundMemoryGame({ cards, playTone }) {
             key={index}
             className={`memory-card ${flipped[index] ? 'flipped' : ''} ${matched[index] ? 'matched' : ''}`}
             onClick={() => flipCard(index)}
+            disabled={complete}
           >
             {flipped[index] || matched[index] ? card.sound : '?'}
           </button>
         ))}
       </div>
       <FeedbackBubble>
-        {matchedCount === cards.length / 2
-          ? 'Perfect match! You found them all!'
+        {complete
+          ? 'Perfect match! 🌟 You found them all!'
           : `Found ${matchedCount}/${cards.length / 2} pairs.`}
       </FeedbackBubble>
+      {complete && <BigButton onClick={resetGame}>Play again</BigButton>}
     </div>
   );
 }

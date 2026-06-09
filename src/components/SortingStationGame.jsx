@@ -23,14 +23,22 @@ export default function SortingStationGame({ items, bins, playTone }) {
     }
   }
 
+  function resetGame() {
+    setCurrentIndex(0);
+    setSorted({});
+    setComplete(false);
+  }
+
   return (
     <div className="sorting-station-game">
       <div className="conveyor-section">
         <div className="conveyor-belt">
-          <div className="conveyor-item" key={currentItem.id}>
-            <span className="item-emoji">{currentItem.emoji}</span>
-            <p>{currentItem.name}</p>
-          </div>
+          {!complete && (
+            <div className="conveyor-item" key={currentItem.id}>
+              <span className="item-emoji">{currentItem.emoji}</span>
+              <p>{currentItem.name}</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -41,6 +49,7 @@ export default function SortingStationGame({ items, bins, playTone }) {
             className="sort-bin"
             style={{ backgroundColor: bin.color }}
             onClick={() => sortItem(bin)}
+            disabled={complete}
             aria-label={`Sort into ${bin.name} bin`}
           >
             <span>{bin.emoji}</span>
@@ -51,11 +60,11 @@ export default function SortingStationGame({ items, bins, playTone }) {
 
       <FeedbackBubble>
         {complete
-          ? `All sorted! ${correctCount}/${items.length} correct.`
+          ? `All sorted! ${correctCount}/${items.length} correct. ${correctCount === items.length ? '🌟 Perfect!' : 'Great job!'}`
           : `Sorted ${correctCount}/${items.length}. Which bin?`}
       </FeedbackBubble>
 
-      {complete && <BigButton onClick={() => window.location.reload()}>Play again</BigButton>}
+      {complete && <BigButton onClick={resetGame}>Play again</BigButton>}
     </div>
   );
 }
