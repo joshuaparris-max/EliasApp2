@@ -4,6 +4,8 @@ import { parentPrompts } from '../data/vocabulary.js';
 
 export default function ParentSettings({ settings, achievements, onSettingChange, onResetAchievements, onOpenResources }) {
   const [promptIndex, setPromptIndex] = useState(0);
+  const stickerGoal = 8;
+  const stickerProgress = Math.min(achievements.length, stickerGoal);
 
   return (
     <section className="parent-settings" aria-label="Parent settings">
@@ -32,7 +34,9 @@ export default function ParentSettings({ settings, achievements, onSettingChange
           </label>
         </div>
         <div className="achievement-row">
-          <strong>Achievements:</strong> {achievements.length ? achievements.join(', ') : 'None yet'}
+          <strong>Sticker progress:</strong> {stickerProgress} of {stickerGoal}
+          <progress max={stickerGoal} value={stickerProgress} aria-label={`${stickerProgress} of ${stickerGoal} stickers earned`} />
+          <span>{achievements.length ? achievements.join(', ') : 'Try an activity together to earn the first sticker.'}</span>
         </div>
         <div className="parent-prompts">
           <strong>💡 Today's co-play prompt:</strong>
